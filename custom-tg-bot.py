@@ -5,7 +5,7 @@ import sys
 import json
 import requests
 
-CHAT_ID = "redacted"
+CHAT_ID = "242125085"
 
 
 def create_message(alert_json):
@@ -19,16 +19,16 @@ def create_message(alert_json):
     agent_name = alert_json['agent']['name'] if 'name' in alert_json['agent'] else ''
     agent_id = alert_json['agent']['id'] if 'id' in alert_json['agent'] else ''
 
-    # Format message
-    msg_content = f'*{title}*\n\n'
-    msg_content += f'_{description}_\n'
-    msg_content += f'*Groups:* {groups}\n' if len(groups) > 0 else ''
-    msg_content += f'*Rule:* {rule_id} (Level {alert_level})\n'
-    msg_content += f'*Agent:* {agent_name} ({agent_id})\n' if len(agent_name) > 0 else ''
+    # Format message with markdown
+    msg_text = f'*{title}*\n\n'
+    msg_text += f'_{description}_\n'
+    msg_text += f'*Groups:* {groups}\n' if len(groups) > 0 else ''
+    msg_text += f'*Rule:* {rule_id} (Level {alert_level})\n'
+    msg_text += f'*Agent:* {agent_name} ({agent_id})\n' if len(agent_name) > 0 else ''
 
     msg_data = {}
     msg_data['chat_id'] = CHAT_ID
-    msg_data['text'] = msg_content
+    msg_data['text'] = msg_text
     msg_data['parse_mode'] = 'markdown'
     return json.dumps(msg_data)
 
